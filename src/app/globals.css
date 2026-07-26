@@ -1,26 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   6ES — design tokens (PRD §3)
+   Dark is the primary world. Bone is the relief. Gold is the only accent.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Palette */
+  --color-ink: #1c1917;
+  --color-foreground: #0c0a09;
+  --color-secondary: #44403c;
+  --color-accent: #a16207;
+  --color-background: #fafaf9;
+  --color-muted: #e8ecf0;
+
+  /* Working aliases — the dark world reads bone-on-ink, so name the two
+     surfaces explicitly rather than flipping --background per scheme. */
+  --color-bone: #fafaf9;
+  --color-gold: #a16207;
+
+  /* Type */
+  --font-display: "Cormorant", ui-serif, Georgia, serif;
+  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body);
+
+  /* Display scale — Cormorant. Tight leading, it has a tall x-height at size. */
+  --text-display-sm: 2.5rem;
+  --text-display-sm--line-height: 1.05;
+  --text-display-sm--letter-spacing: -0.01em;
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.015em;
+  --text-display-lg: 5rem;
+  --text-display-lg--line-height: 0.98;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-xl: 7rem;
+  --text-display-xl--line-height: 0.94;
+  --text-display-xl--letter-spacing: -0.025em;
+
+  /* Body scale — Montserrat */
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.24em;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.6;
+  --text-micro--letter-spacing: 0.08em;
+
+  /* Letter-spacing utilities for the luxury register */
+  --tracking-luxe: 0.18em;
+  --tracking-wordmark: 0.32em;
+
+  /* Motion */
+  --ease-quiet: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-body);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Cormorant is a display face — never let it set body copy by accident. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-accent);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* The single gold hairline. Used for the CTA and section rules. */
+  .rule-gold {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--color-accent) 60%, transparent),
+      transparent
+    );
+  }
+
+  /* Slow gold aurora for the 416 founder chapter — bg-only, never on type. */
+  .ff-aurora > div:nth-child(1) {
+    animation: ff-aurora-a 18s ease-in-out infinite alternate;
+  }
+  .ff-aurora > div:nth-child(2) {
+    animation: ff-aurora-b 22s ease-in-out infinite alternate;
+  }
+  .ff-aurora > div:nth-child(3) {
+    animation: ff-aurora-c 26s ease-in-out infinite alternate;
+  }
+
+}
+
+@keyframes ff-aurora-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(8%, 12%, 0) scale(1.12);
+  }
+}
+
+@keyframes ff-aurora-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(-10%, 8%, 0) scale(1);
+  }
+}
+
+@keyframes ff-aurora-c {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -10%, 0) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
