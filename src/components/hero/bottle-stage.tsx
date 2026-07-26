@@ -413,11 +413,17 @@ function GroundShadows() {
 /*  reads gold (never black) from every angle. No external HDRI.                */
 /* -------------------------------------------------------------------------- */
 
-export default function BottleStage() {
+export default function BottleStage({
+  dpr = [1, 2],
+}: {
+  // Cap the device pixel ratio lower on phones — a mirror-finish bottle with
+  // shadows + env lighting at full retina dpr is needless load on mobile GPUs.
+  dpr?: [number, number];
+} = {}) {
   return (
     <Canvas
       camera={{ position: [0, 0, 4.9], fov: 32 }}
-      dpr={[1, 2]}
+      dpr={dpr}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
     >

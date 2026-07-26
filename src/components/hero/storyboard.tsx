@@ -10,10 +10,16 @@ import {
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import BottleStage from "./bottle-stage";
 import { LightMotes } from "./light-motes";
+import { cn } from "@/lib/utils";
+
+// three.js + R3F + drei is a heavy bundle. Load it lazily so it's fetched only
+// when a hero that actually needs WebGL mounts (desktop storyboard or the mobile
+// flacon) — never during SSR or for the reduced-motion still.
+const BottleStage = dynamic(() => import("./bottle-stage"), { ssr: false });
 import { stage } from "./stage-store";
 import { Grain } from "@/components/site/grain";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
@@ -56,15 +62,20 @@ const ACTS = BOTTLE.length;
 /* -------------------------------------------------------------------------- */
 
 class CanvasBoundary extends Component<
-  { children: ReactNode },
+  { children: ReactNode; onFail?: () => void; fallback?: ReactNode },
   { failed: boolean }
 > {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
+  componentDidCatch() {
+    this.props.onFail?.();
+  }
   render() {
-    return this.state.failed ? null : this.props.children;
+    return this.state.failed
+      ? (this.props.fallback ?? null)
+      : this.props.children;
   }
 }
 
@@ -80,25 +91,36 @@ function StaticHero({
   heroSrc?: string | null;
   stageSrc?: string | null;
 }) {
+  // The marble stage IS a hero-grade gold-bottle shot; a dedicated poster
+  // (hero/6es-hero) is preferred when present, otherwise the stage stands in.
+  const bottleSrc = heroSrc ?? stageSrc;
   return (
-    <section className="relative flex min-h-[100svh] w-full items-center overflow-hidden bg-foreground">
-      {stageSrc && (
+    <section className="relative flex min-h-[100svh] w-full items-end overflow-hidden bg-foreground lg:items-center">
+      {bottleSrc && (
         <Image
-          src={stageSrc}
-          alt=""
+          src={bottleSrc}
+          alt="6ES™ Extrait de Parfum"
           fill
           priority
-          quality={100}
+          quality={95}
           sizes="100vw"
-          className="pointer-events-none object-cover object-center"
+          // Frame the gold bottle (right-of-centre in the wide shot) on narrow
+          // screens; recentre once the two-column layout takes over.
+          className="pointer-events-none object-cover [object-position:70%_45%] lg:[object-position:center]"
         />
       )}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_70%_50%,rgba(161,98,7,0.22),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_62%_42%,rgba(161,98,7,0.22),transparent_72%)]"
+      />
+      {/* Legibility scrim — heavy from the bottom for the stacked mobile copy,
+          from the left once the copy moves into a column on desktop. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground via-foreground/80 to-foreground/10 lg:bg-gradient-to-r lg:from-foreground lg:via-foreground/65 lg:to-transparent"
       />
       <Grain />
-      <div className="relative z-10 mx-auto grid w-full max-w-[88rem] items-center gap-10 px-8 pt-28 pb-16 md:px-16 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="relative z-10 mx-auto grid w-full max-w-[88rem] items-center gap-10 px-6 pt-28 pb-14 sm:px-8 md:px-16 lg:grid-cols-[1.05fr_0.95fr] lg:pb-16">
         <SceneCopy
           marker="01 — The Flagship"
           kicker="Fresh & Famous — Toronto"
@@ -107,19 +129,118 @@ function StaticHero({
           body="An extrait de parfum built for longevity — the highest fragrance concentration, offered as For Him and For Her."
           ctas
         />
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-md">
-          {heroSrc && (
-            <Image
-              src={heroSrc}
-              alt="6ES™ Extrait de Parfum"
-              fill
-              priority
-              sizes="(max-width: 1024px) 80vw, 40vw"
-              className="object-contain"
-            />
-          )}
-        </div>
+        {/* Right column is intentionally empty on desktop — the bottle lives in
+            the full-bleed stage behind it. */}
+        <div aria-hidden="true" className="hidden lg:block" />
       </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Mobile hero — the real WebGL flacon, without the pinned storyboard. One      */
+/*  bottle turns slowly on the lit stage and tilts to touch. Falls back to the   */
+/*  still if WebGL can't start.                                                   */
+/* -------------------------------------------------------------------------- */
+
+function MobileHero({
+  heroSrc,
+  stageSrc,
+}: {
+  heroSrc?: string | null;
+  stageSrc?: string | null;
+}) {
+  const bottleSrc = heroSrc ?? stageSrc;
+  const [failed, setFailed] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // A single, centred flacon turning slowly enough to read both the face and
+    // the 416 back. No storyboard, no pin — just the object.
+    Object.assign(stage, {
+      rotY: -0.2,
+      posX: 0,
+      posY: 0,
+      scale: 0.95,
+      pointerX: 0,
+      pointerY: 0,
+      morph: 0,
+      duo: 0,
+    });
+    let raf = 0;
+    let last = performance.now();
+    const spin = (t: number) => {
+      const dt = Math.min((t - last) / 1000, 0.05);
+      last = t;
+      stage.rotY += dt * 0.3;
+      raf = requestAnimationFrame(spin);
+    };
+    raf = requestAnimationFrame(spin);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    const el = stageRef.current;
+    if (!t || !el) return;
+    const r = el.getBoundingClientRect();
+    stage.pointerX = ((t.clientX - r.left) / r.width) * 2 - 1;
+    stage.pointerY = ((t.clientY - r.top) / r.height) * 2 - 1;
+  };
+
+  const show3D = !failed;
+
+  return (
+    <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-foreground">
+      {/* Atmosphere: the marble set, dimmed behind the flacon. If WebGL fails it
+          is re-framed onto the bottle and brought to full strength as the still. */}
+      {bottleSrc && (
+        <Image
+          src={bottleSrc}
+          alt={show3D ? "" : "6ES™ Extrait de Parfum"}
+          fill
+          priority
+          quality={95}
+          sizes="100vw"
+          className={cn(
+            "pointer-events-none object-cover",
+            show3D ? "object-center opacity-60" : "[object-position:70%_45%]",
+          )}
+        />
+      )}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_38%,rgba(161,98,7,0.26),transparent_72%)]"
+      />
+
+      {/* The turning flacon fills the upper stage region. */}
+      <div
+        ref={stageRef}
+        onTouchMove={onTouchMove}
+        className="relative z-[1] min-h-[46svh] flex-1"
+      >
+        {show3D && (
+          <CanvasBoundary onFail={() => setFailed(true)}>
+            <div className="absolute inset-0">
+              <BottleStage dpr={[1, 1.5]} />
+            </div>
+          </CanvasBoundary>
+        )}
+      </div>
+
+      {/* Copy in a scrimmed band at the base. */}
+      <div className="relative z-10 bg-gradient-to-t from-foreground via-foreground/95 to-transparent px-6 pt-8 pb-14">
+        <SceneCopy
+          marker="01 — The Flagship"
+          kicker="Fresh & Famous — Toronto"
+          wordmark
+          sub="One scent. Two expressions."
+          body="An extrait de parfum built for longevity — the highest fragrance concentration, offered as For Him and For Her."
+          ctas
+        />
+      </div>
+
+      <Grain />
     </section>
   );
 }
@@ -642,8 +763,13 @@ export function Storyboard6ES({
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  if (!enhance || reduced !== false) {
+  // Reduced motion (or the pre-mount frame) → the calm still. Desktop → the full
+  // pinned storyboard. Mobile with motion → the single turning flacon, no pin.
+  if (reduced !== false) {
     return <StaticHero heroSrc={heroSrc} stageSrc={stageSrc} />;
   }
-  return <Storyboard heroSrc={heroSrc} stageSrc={stageSrc} />;
+  if (enhance) {
+    return <Storyboard heroSrc={heroSrc} stageSrc={stageSrc} />;
+  }
+  return <MobileHero heroSrc={heroSrc} stageSrc={stageSrc} />;
 }
