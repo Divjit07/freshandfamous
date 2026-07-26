@@ -26,6 +26,15 @@ export function MrFreshBand() {
               Mr Fresh for the{" "}
               <span className="text-accent italic">ride.</span>
             </h2>
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-accent/45 bg-accent/[0.07] px-5 py-2.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              <span className="font-body text-eyebrow font-semibold tracking-luxe text-accent uppercase">
+                Now at Walmart · United States
+              </span>
+            </div>
           </div>
           {logo && (
             <div className="relative h-20 w-20 overflow-hidden rounded-full border border-white/10 md:h-24 md:w-24">
@@ -77,9 +86,10 @@ export function MrFreshBand() {
         </Reveal>
 
         <Reveal className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-[42ch] font-body text-sm leading-relaxed font-light text-background/50">
-            Car hangs, Caribbean limited islands, and Walmart US magnesium mist
-            — the louder side of Fresh &amp; Famous.
+          <p className="max-w-[44ch] font-body text-sm leading-relaxed font-light text-background/55">
+            Car air fresheners for the daily drive and a magnesium Air &amp; Body
+            Mist on Walmart shelves across the US — plus Caribbean limited
+            islands. The everyday side of Fresh &amp; Famous.
           </p>
           <Link
             href="/shop#mr-fresh"

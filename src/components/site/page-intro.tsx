@@ -10,6 +10,7 @@ export function PageIntro({
   align = "left",
   backgroundSrc,
   backgroundAlt = "",
+  backgroundPosition = "center",
 }: {
   eyebrow: string;
   title: React.ReactNode;
@@ -18,28 +19,36 @@ export function PageIntro({
   /** Optional full-bleed background image behind the intro. */
   backgroundSrc?: string | null;
   backgroundAlt?: string;
+  /** object-position for the background image (default "center"). */
+  backgroundPosition?: string;
 }) {
   return (
     <section className="relative overflow-hidden bg-foreground text-background">
       {backgroundSrc ? (
         <>
-          <Image
-            src={backgroundSrc}
-            alt={backgroundAlt}
-            fill
-            priority
-            quality={100}
-            sizes="100vw"
-            className="pointer-events-none object-cover object-center"
-          />
-          {/* Keep type legible over the photo */}
+          {/* Full-bleed on mobile; anchored to the right half on desktop so the
+              product sits clear of the copy on the left. */}
+          <div className="absolute inset-0 lg:left-[32%]">
+            <Image
+              src={backgroundSrc}
+              alt={backgroundAlt}
+              fill
+              priority
+              quality={100}
+              sizes="100vw"
+              style={{ objectPosition: backgroundPosition }}
+              className="pointer-events-none object-cover"
+            />
+          </div>
+          {/* Legibility scrim — solid behind the copy, but kept light over the
+              product on desktop so the bottles read bright, not muddy. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/45"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/45 lg:via-foreground/55 lg:to-transparent"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground via-transparent to-foreground/40"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground via-transparent to-foreground/30"
           />
         </>
       ) : (

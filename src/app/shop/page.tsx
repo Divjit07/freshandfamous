@@ -3,7 +3,7 @@ import { PageIntro } from "@/components/site/page-intro";
 import { LineIndex } from "@/components/home/line-index";
 import { MrFreshSection } from "@/components/shop/mr-fresh-section";
 import { Reveal } from "@/components/ui/reveal";
-import { lines, formatPrice } from "@/lib/catalog";
+import { lines, mrFreshShopLines, formatPrice } from "@/lib/catalog";
 import { findAsset } from "@/lib/assets";
 import { AddButton } from "@/components/product/add-button";
 
@@ -32,13 +32,13 @@ export default function ShopPage() {
         backgroundAlt="6ES For Her and For Him — floating studio portrait"
       />
 
-      {/* Signature lines */}
+      {/* The full range — signature pours + the Mr Fresh retail products */}
       <section className="mx-auto max-w-[88rem] px-8 pb-28 md:px-16 md:pb-36">
         <Reveal>
           <p className="mb-10 font-body text-eyebrow font-medium tracking-luxe text-accent uppercase">
-            Signature
+            The Range
           </p>
-          <LineIndex />
+          <LineIndex items={[...lines, ...mrFreshShopLines]} />
         </Reveal>
       </section>
 

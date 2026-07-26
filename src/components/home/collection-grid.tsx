@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice, type Line } from "@/lib/catalog";
@@ -24,14 +25,27 @@ export function CollectionGrid({
   className?: string;
 }) {
   const reduced = useReducedMotion();
-  const flat = reduced !== false;
+  // The gold wireframe floor is a desktop-only decorative backdrop. The cards
+  // themselves stay flat and un-transformed everywhere — per-card translateZ was
+  // pushing cards behind one another and stealing clicks (you couldn't tap the
+  // product). A shop grid must be reliably clickable, so depth lives in the
+  // floor, not the cards.
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setWide(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  const showStage = reduced === false && wide;
 
   return (
     <div
       className={cn("relative", className)}
-      style={flat ? undefined : { perspective: "1400px" }}
+      style={showStage ? { perspective: "1400px" } : undefined}
     >
-      {!flat && (
+      {showStage && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-[-10%] top-[12%] bottom-[-24%] opacity-[0.85]"
@@ -56,31 +70,12 @@ export function CollectionGrid({
           "relative grid gap-5 md:gap-6",
           columns === 3 ? "md:grid-cols-3" : "md:mx-auto md:max-w-[44rem] md:grid-cols-2 lg:max-w-[58rem]",
         )}
-        style={
-          flat
-            ? undefined
-            : {
-                transform: "rotateX(8deg) translateZ(0)",
-                transformStyle: "preserve-3d",
-              }
-        }
       >
         {items.map((line: Line, i) => {
           const thumb = thumbs[line.id];
           const n = indexOffset + i;
           return (
-            <li
-              key={line.id}
-              className="group"
-              style={
-                flat
-                  ? undefined
-                  : {
-                      transform: `translateZ(${12 - n * 4}px)`,
-                      transformStyle: "preserve-3d",
-                    }
-              }
-            >
+            <li key={line.id} className="group">
               <Link
                 href={line.href}
                 className="relative flex h-full flex-col border border-white/10 bg-foreground/80 transition-[border-color,transform,background-color] duration-500 ease-[var(--ease-quiet)] hover:border-accent/50 hover:bg-foreground md:hover:-translate-y-1"

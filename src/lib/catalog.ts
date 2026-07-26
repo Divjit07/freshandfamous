@@ -12,6 +12,8 @@ export type Line = {
   unit: string;
   variants: string[];
   href: string;
+  /** Optional thumbnail path (without extension); defaults to products/<id>. */
+  thumb?: string;
 };
 
 export const lines: Line[] = [
@@ -129,6 +131,36 @@ export const mrFreshProducts: MrFreshProduct[] = [
 
 /** Walmart US Mr Fresh mist line — same 8 moods as the house mist index. */
 export const retailMistScents = mistScents;
+
+/** The two Mr Fresh retail products, shown as index rows in the /shop range. */
+export const mrFreshShopLines: Line[] = [
+  {
+    id: "car-hang",
+    name: "Mr Fresh Car Air Freshener",
+    wordmark: "Mr Fresh",
+    tagline: "Keep it fresh.™",
+    blurb:
+      "The daily-drive hang — long-lasting scent that rides shotgun, now on Walmart shelves across the US.",
+    price: 4.99,
+    unit: "Walmart US · Black Ice",
+    variants: ["Black Ice"],
+    href: "/shop#car-hang",
+    thumb: "products/car-hang",
+  },
+  {
+    id: "retail-can",
+    name: "Mr Fresh Air & Body Mist",
+    wordmark: "Mr Fresh",
+    tagline: "Eight moods, everyday.",
+    blurb:
+      "Magnesium-infused air & body mist in eight scents — 4 fl oz, stocked at Walmart across the US.",
+    price: 8.99,
+    unit: "Walmart US · 4 fl oz",
+    variants: ["8 scents"],
+    href: "/shop#retail",
+    thumb: "mr-fresh/retail-lineup-8",
+  },
+];
 
 /** Homepage collection row — car hang + Caribbean limited (same card chrome as signature lines). */
 export const collectionAutoLines: Line[] = [

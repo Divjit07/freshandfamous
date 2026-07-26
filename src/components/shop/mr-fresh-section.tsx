@@ -76,12 +76,24 @@ export function MrFreshSection() {
                 Keep it{" "}
                 <span className="text-accent italic">fresh.</span>
               </h2>
-              <p className="mt-6 max-w-[42ch] font-body text-base leading-relaxed font-light text-background/55">
-                The accessible house brand — car hangs for the daily drive,
-                Caribbean limited islands, and magnesium-infused air &amp; body
-                mist on Walmart shelves in the US. Same Toronto house. Louder
-                smile.
+              <p className="mt-6 max-w-[46ch] font-body text-base leading-relaxed font-light text-background/60">
+                The everyday face of Fresh &amp; Famous — the line you&rsquo;ll
+                actually find on the shelf and on the road. Mr Fresh{" "}
+                <span className="text-background">car air fresheners</span> keep
+                the daily drive fresh, and our magnesium-infused{" "}
+                <span className="text-background">Air &amp; Body Mist</span> is
+                stocked at Walmart across the United States. Same Toronto house.
+                Made for every day.
               </p>
+              <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-accent/45 bg-accent/[0.07] px-5 py-2.5">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+                <span className="font-body text-eyebrow font-semibold tracking-luxe text-accent uppercase">
+                  Now at Walmart · United States
+                </span>
+              </div>
             </div>
             {logo && (
               <div className="relative mx-auto aspect-square w-full max-w-[20rem] overflow-hidden rounded-[2px] border border-white/10 bg-white lg:mx-0 lg:max-w-none">
@@ -156,15 +168,19 @@ export function MrFreshSection() {
             <Reveal className="flex flex-col justify-between gap-10 bg-[#141110] p-8 md:p-12">
               <div>
                 <span className="font-body text-eyebrow font-medium tracking-luxe text-accent uppercase">
-                  Car hanging · {carHangScents[0]?.name}
+                  Car air freshener · {carHangScents[0]?.name}
                 </span>
                 <h3 className="mt-5 font-display text-[clamp(1.75rem,3.5vw,2.75rem)] leading-none">
                   {carHang.name}
                 </h3>
                 <p className="mt-5 max-w-[40ch] font-body text-base leading-relaxed font-light text-background/55">
                   {carHang.blurb} Cool, clean, night-drive — the scent that
-                  rides shotgun.
+                  rides shotgun, now hanging on Walmart shelves across the US.
                 </p>
+                <span className="mt-5 inline-flex items-center gap-2 font-body text-micro font-semibold tracking-luxe text-accent uppercase">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  At Walmart · US
+                </span>
                 <div className="mt-10 flex gap-3">
                   {hang && (
                     <div className="relative aspect-square w-36 overflow-hidden rounded-[2px] border border-white/10 md:w-40">
@@ -329,13 +345,22 @@ export function MrFreshSection() {
               <h2 className="mt-6 max-w-[18ch] font-display text-[clamp(2rem,5vw,3.5rem)] leading-none font-normal">
                 Magnesium mist. Eight moods.
               </h2>
-              <p className="mt-5 max-w-[46ch] font-body text-base leading-relaxed font-light text-background/55">
-                {retail.blurb}
+              <p className="mt-5 max-w-[48ch] font-body text-base leading-relaxed font-light text-background/60">
+                Our best-seller — a magnesium-infused Air &amp; Body Mist in
+                eight scents, 4&nbsp;fl&nbsp;oz, now stocked at{" "}
+                <span className="text-background">Walmart across the United
+                States</span>. Everyday price. Made to move off the shelf.
               </p>
             </div>
-            <span className="font-body text-lg font-medium text-background">
-              {formatPrice(retail.price)}
-            </span>
+            <div className="flex flex-col items-start gap-3 md:items-end">
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/45 bg-accent/[0.07] px-4 py-2 font-body text-micro font-semibold tracking-luxe text-accent uppercase">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                Now at Walmart · US
+              </span>
+              <span className="font-body text-lg font-medium text-background">
+                {formatPrice(retail.price)}
+              </span>
+            </div>
           </Reveal>
 
           {retailLineup && (

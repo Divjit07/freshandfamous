@@ -1,17 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { lines, formatPrice } from "@/lib/catalog";
+import { lines, formatPrice, type Line } from "@/lib/catalog";
 import { findAsset } from "@/lib/assets";
 
 /**
- * The three lines as an editorial index — full-width rows on a gold hairline,
- * not a grid of matching cards. Reused on the home Collection chapter and /shop.
+ * An editorial product index — full-width rows on a gold hairline, not a grid of
+ * matching cards. Defaults to the signature lines; pass `items` for a fuller set.
  */
-export function LineIndex() {
+export function LineIndex({ items = lines }: { items?: Line[] }) {
   return (
     <ul className="border-t border-white/10">
-      {lines.map((line, i) => {
-        const thumb = findAsset(`products/${line.id}`);
+      {items.map((line, i) => {
+        const thumb = findAsset(line.thumb ?? `products/${line.id}`);
         return (
         <li key={line.id}>
           <Link
