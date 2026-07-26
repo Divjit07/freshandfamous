@@ -155,17 +155,18 @@ function MobileHero({
   const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // A single, centred flacon turning slowly enough to read both the face and
-    // the 416 back. No storyboard, no pin — just the object.
+    // The pair, centred — gold "For Him" beside frosted "For Her" — turning
+    // slowly together so both faces and the 416 backs read. posX offsets the
+    // hero left so the companion (+DUO_OFFSET) lands the pair on centre.
     Object.assign(stage, {
       rotY: -0.2,
-      posX: 0,
+      posX: -0.48,
       posY: 0,
-      scale: 0.95,
+      scale: 0.64,
       pointerX: 0,
       pointerY: 0,
-      morph: 0,
-      duo: 0,
+      morph: 0, // hero stays gold "For Him"
+      duo: 1, // frosted "For Her" companion shown beside it
     });
     let raf = 0;
     let last = performance.now();

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const mag = lines.find((l) => l.id === "mag420")!;
-const houseDuo = findAsset("products/6es");
+const houseDuo = findAsset("products/shop-duo");
 
 export default function ShopPage() {
   return (
