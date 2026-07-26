@@ -161,8 +161,8 @@ function MobileHero({
     Object.assign(stage, {
       rotY: -0.2,
       posX: -0.48,
-      posY: 0,
-      scale: 0.64,
+      posY: 0.05,
+      scale: 0.66,
       pointerX: 0,
       pointerY: 0,
       morph: 0, // hero stays gold "For Him"
@@ -173,7 +173,7 @@ function MobileHero({
     const spin = (t: number) => {
       const dt = Math.min((t - last) / 1000, 0.05);
       last = t;
-      stage.rotY += dt * 0.3;
+      stage.rotY += dt * 1.25; // ~one turn every 5s
       raf = requestAnimationFrame(spin);
     };
     raf = requestAnimationFrame(spin);
@@ -214,11 +214,12 @@ function MobileHero({
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_38%,rgba(161,98,7,0.26),transparent_72%)]"
       />
 
-      {/* The turning flacon fills the upper stage region. */}
+      {/* Product zone — the turning pair, fixed height, with a caption anchored
+          at its base so the flacons read as labelled, not floating. */}
       <div
         ref={stageRef}
         onTouchMove={onTouchMove}
-        className="relative z-[1] min-h-[46svh] flex-1"
+        className="relative z-[1] h-[48svh] shrink-0"
       >
         {show3D && (
           <CanvasBoundary onFail={() => setFailed(true)}>
@@ -227,10 +228,17 @@ function MobileHero({
             </div>
           </CanvasBoundary>
         )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-3 flex flex-col items-center gap-3">
+          <span className="h-8 w-px bg-gradient-to-b from-transparent to-accent/70" />
+          <span className="font-body text-eyebrow font-medium tracking-luxe text-background/70 uppercase">
+            For Him · For Her
+          </span>
+        </div>
       </div>
 
-      {/* Copy in a scrimmed band at the base. */}
-      <div className="relative z-10 bg-gradient-to-t from-foreground via-foreground/95 to-transparent px-6 pt-8 pb-14">
+      {/* Copy zone — fills the remainder and centres, tight to the product zone
+          above so there's no void between the pair and the type. */}
+      <div className="relative z-10 flex flex-1 flex-col justify-center bg-gradient-to-t from-foreground via-foreground to-foreground/70 px-6 pt-6 pb-12">
         <SceneCopy
           marker="01 — The Flagship"
           kicker="Fresh & Famous — Toronto"
