@@ -37,8 +37,7 @@ export const lines: Line[] = [
     tagline: "Eight moods, one house.",
     blurb:
       "A lighter register — dressed each morning, carried all day. Eight scents, from Ocean Fresh to Baby Powder.",
-    price: 15,
-    was: 25,
+    price: 9.99,
     unit: "120mL",
     variants: ["8 scents"],
     href: "/shop#retail",
@@ -119,7 +118,7 @@ export const mrFreshProducts: MrFreshProduct[] = [
     tagline: "Represent yuh islands.",
     blurb:
       "Limited island shapes in gold-edged hangs — Jamaica first, then the archipelago. Caribbean made. 100% vibes.",
-    price: 6.99,
+    price: 4.99,
     unit: "Limited edition",
     badge: "Limited",
     href: "/shop#caribbean",
@@ -130,7 +129,7 @@ export const mrFreshProducts: MrFreshProduct[] = [
     tagline: "Sold at Walmart · US",
     blurb:
       "Magnesium-infused air & body mist — 4 fl oz retail, eight scents, stocked where America shops.",
-    price: 8.99,
+    price: 9.99,
     unit: "4 fl oz · 8 scents",
     badge: "Walmart US",
     href: "/shop#retail",
@@ -162,7 +161,7 @@ export const mrFreshShopLines: Line[] = [
     tagline: "Eight moods, everyday.",
     blurb:
       "Magnesium-infused air & body mist in eight scents — 4 fl oz, stocked at Walmart across the US.",
-    price: 8.99,
+    price: 9.99,
     unit: "Walmart US · 4 fl oz",
     variants: ["8 scents"],
     href: "/shop#retail",
@@ -191,7 +190,7 @@ export const collectionAutoLines: Line[] = [
     tagline: "Represent yuh islands.",
     blurb:
       "Island-shaped hangs, gold-edged — the full archipelago. Rep fresh. Stay famous. Caribbean made.",
-    price: 6.99,
+    price: 4.99,
     unit: "Limited edition",
     variants: ["12 islands"],
     href: "/shop#caribbean",

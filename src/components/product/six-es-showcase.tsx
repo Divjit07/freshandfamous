@@ -55,11 +55,11 @@ export function SixEsShowcase({
   }
 
   return (
-    <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+    <div className="grid gap-14 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
       {/* Visual — both variants stacked, cross-fading on selection */}
       <div className="flex items-center justify-center">
-        <div className="relative flex flex-col items-center">
-          <div className="relative aspect-[4/5] h-[clamp(22rem,55svh,44rem)] w-auto overflow-hidden rounded-[3px]">
+        <div className="relative flex flex-col items-center w-full max-w-[540px]">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[3px]">
             <div
               aria-hidden="true"
               className="absolute inset-0 z-10 rounded-[3px] border border-white/12"

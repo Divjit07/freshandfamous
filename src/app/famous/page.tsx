@@ -26,6 +26,8 @@ export default function FamousPage() {
           </>
         }
         lede="Built in Toronto, validated by the tastemakers who shape the global culture. From youth entrepreneur stages to global recognition — Fresh & Famous moves in every room."
+        backgroundSrc="/celebrity/famous-hero-bg.jpg"
+        backgroundAlt="6ES luxury perfume bottle on marble"
       />
 
       {/* Drake / Toronto Endorsement Banner */}
