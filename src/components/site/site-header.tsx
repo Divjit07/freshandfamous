@@ -61,16 +61,9 @@ export function SiteHeader() {
         <div className="mx-auto flex h-14 max-w-[90rem] items-center justify-between px-5 md:h-16 md:px-10">
           <Link
             href="/"
-            className="relative block transition-opacity duration-300 hover:opacity-80"
+            className="font-body text-xs font-bold tracking-[0.25em] text-background uppercase transition-opacity duration-300 hover:opacity-70 md:text-sm"
           >
-            <Image
-              src="/logo.png"
-              alt="Fresh & Famous"
-              width={200}
-              height={40}
-              priority
-              className="h-9 w-auto md:h-10 object-contain"
-            />
+            Fresh &amp; Famous
           </Link>
 
           <nav aria-label="Primary" className="hidden md:block">
