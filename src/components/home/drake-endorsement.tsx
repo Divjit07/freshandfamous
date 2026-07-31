@@ -18,9 +18,21 @@ export function DrakeEndorsement() {
 
         {/* Centred editorial layout */}
         <Reveal className="text-center max-w-[52rem] mx-auto">
-          <span className="font-body text-[10px] font-semibold tracking-[0.3em] text-accent uppercase">
-            Backed by the 6ix
-          </span>
+          <div className="flex items-center justify-center gap-6 mb-6">
+            {/* Instagram logo (left) */}
+            <svg className="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span className="font-body text-[10px] font-semibold tracking-[0.3em] text-accent uppercase">
+              Backed by the 6ix
+            </span>
+            {/* Twitter / X logo (right) */}
+            <svg className="h-4.5 w-4.5 text-accent" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+          </div>
 
           <h2 className="mt-8 font-display text-[clamp(2.8rem,6vw,4.5rem)] leading-[0.95] font-normal text-background">
             &ldquo;Hurry up and buy 6ES&hellip;<br className="hidden sm:inline" />cologniiiiiii&rdquo;
