@@ -20,13 +20,23 @@ export function SiteHeader() {
   const { count, hydrated } = useCart();
 
   useEffect(() => {
-    // Passive listener + a single boolean flip: the header must never be the
-    // thing that costs us frames while the hero is pinned.
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -38,80 +48,95 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-[var(--ease-quiet)]",
-        scrolled || menuOpen
-          ? "border-b border-white/8 bg-foreground/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
-      )}
-    >
-      <div className="mx-auto flex h-14 max-w-[90rem] items-center justify-between px-5 md:h-16 md:px-10">
-        <Link
-          href="/"
-          className="font-body text-[0.625rem] font-medium tracking-wordmark text-background uppercase transition-opacity duration-300 hover:opacity-70 md:text-[0.6875rem]"
-        >
-          Fresh and Famous
-        </Link>
-
-        <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-9">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="group relative font-body text-micro font-light text-background/75 uppercase transition-colors duration-300 hover:text-background"
-                >
-                  {item.label}
-                  <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-500 ease-[var(--ease-quiet)] group-hover:scale-x-100" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-4">
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-[var(--ease-quiet)]",
+          scrolled || menuOpen
+            ? "border-b border-white/8 bg-foreground/85 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent",
+        )}
+      >
+        <div className="mx-auto flex h-14 max-w-[90rem] items-center justify-between px-5 md:h-16 md:px-10">
           <Link
-            href="/cart"
-            aria-label={hydrated && count > 0 ? `Cart, ${count} item${count === 1 ? "" : "s"}` : "Cart"}
-            className="relative p-1 text-background/75 transition-colors duration-300 hover:text-accent"
+            href="/"
+            className="font-body text-[0.625rem] font-medium tracking-wordmark text-background uppercase transition-opacity duration-300 hover:opacity-70 md:text-[0.6875rem]"
           >
-            <CartIcon />
-            {hydrated && count > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 font-body text-[0.5625rem] font-semibold text-foreground tabular-nums">
-                {count}
-              </span>
-            )}
+            Fresh and Famous
           </Link>
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="p-1 text-background/75 transition-colors duration-300 hover:text-accent md:hidden"
-          >
-            <MenuIcon open={menuOpen} />
-          </button>
-        </div>
-      </div>
 
-      {/* Mobile disclosure — a quiet panel, not a full-screen takeover. */}
+          <nav aria-label="Primary" className="hidden md:block">
+            <ul className="flex items-center gap-9">
+              {NAV.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="group relative font-body text-micro font-light text-background/75 uppercase transition-colors duration-300 hover:text-background"
+                  >
+                    {item.label}
+                    <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-500 ease-[var(--ease-quiet)] group-hover:scale-x-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <Link
+              href="/cart"
+              aria-label={hydrated && count > 0 ? `Cart, ${count} item${count === 1 ? "" : "s"}` : "Cart"}
+              className="relative p-1 text-background/75 transition-colors duration-300 hover:text-accent"
+            >
+              <CartIcon />
+              {hydrated && count > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 font-body text-[0.5625rem] font-semibold text-foreground tabular-nums">
+                  {count}
+                </span>
+              )}
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="relative z-[60] p-1 text-background/75 transition-colors duration-300 hover:text-accent md:hidden"
+            >
+              <MenuIcon open={menuOpen} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile menu — full-screen overlay, no height animation jank */}
       <div
         id="mobile-nav"
         className={cn(
-          "overflow-hidden transition-[height,opacity] duration-500 ease-[var(--ease-quiet)] md:hidden",
-          menuOpen ? "h-56 opacity-100" : "h-0 opacity-0",
+          "fixed inset-0 z-40 flex flex-col justify-end bg-foreground/95 backdrop-blur-2xl transition-all duration-400 ease-[var(--ease-quiet)] md:hidden",
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
         )}
       >
-        <nav aria-label="Primary mobile" className="px-5 pt-2 pb-8">
-          <ul className="flex flex-col">
-            {NAV.map((item) => (
-              <li key={item.href} className="border-b border-white/8">
+        <nav aria-label="Primary mobile" className="px-8 pb-16 pt-6">
+          <ul className="flex flex-col gap-1">
+            {NAV.map((item, i) => (
+              <li
+                key={item.href}
+                className={cn(
+                  "border-b border-white/8 transition-all duration-500 ease-[var(--ease-quiet)]",
+                  menuOpen
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-4 opacity-0",
+                )}
+                style={{
+                  transitionDelay: menuOpen ? `${80 + i * 50}ms` : "0ms",
+                }}
+              >
                 <Link
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-4 font-display text-2xl text-background/85 transition-colors duration-300 hover:text-accent"
+                  className="block py-5 font-display text-3xl text-background/85 transition-colors duration-300 hover:text-accent active:text-accent"
                 >
                   {item.label}
                 </Link>
@@ -120,7 +145,7 @@ export function SiteHeader() {
           </ul>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
 
