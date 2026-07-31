@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { cn } from "@/lib/utils";
@@ -60,9 +61,16 @@ export function SiteHeader() {
         <div className="mx-auto flex h-14 max-w-[90rem] items-center justify-between px-5 md:h-16 md:px-10">
           <Link
             href="/"
-            className="font-body text-[0.625rem] font-medium tracking-wordmark text-background uppercase transition-opacity duration-300 hover:opacity-70 md:text-[0.6875rem]"
+            className="relative block transition-opacity duration-300 hover:opacity-80"
           >
-            Fresh and Famous
+            <Image
+              src="/logo.png"
+              alt="Fresh & Famous"
+              width={140}
+              height={28}
+              priority
+              className="h-6 w-auto md:h-7 object-contain"
+            />
           </Link>
 
           <nav aria-label="Primary" className="hidden md:block">
