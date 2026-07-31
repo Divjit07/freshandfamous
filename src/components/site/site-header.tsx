@@ -66,10 +66,10 @@ export function SiteHeader() {
             <Image
               src="/logo.png"
               alt="Fresh & Famous"
-              width={140}
-              height={28}
+              width={200}
+              height={40}
               priority
-              className="h-6 w-auto md:h-7 object-contain"
+              className="h-9 w-auto md:h-10 object-contain"
             />
           </Link>
 
