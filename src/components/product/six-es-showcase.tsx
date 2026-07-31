@@ -59,7 +59,7 @@ export function SixEsShowcase({
       {/* Visual — both variants stacked, cross-fading on selection */}
       <div className="flex items-center justify-center">
         <div className="relative flex flex-col items-center">
-          <div className="relative aspect-[4/5] h-[clamp(16rem,44svh,34rem)] w-auto overflow-hidden rounded-[3px]">
+          <div className="relative aspect-[4/5] h-[clamp(22rem,55svh,44rem)] w-auto overflow-hidden rounded-[3px]">
             <div
               aria-hidden="true"
               className="absolute inset-0 z-10 rounded-[3px] border border-white/12"

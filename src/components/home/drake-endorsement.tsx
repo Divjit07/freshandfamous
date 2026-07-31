@@ -17,7 +17,7 @@ export function DrakeEndorsement() {
       <div className="relative mx-auto max-w-[88rem] px-8 py-20 md:px-16 md:py-28">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20 items-center">
 
-          {/* Left — label + headline */}
+          {/* Left — structured endorsement details */}
           <Reveal>
             <div className="flex items-center gap-4">
               <span className="h-px w-12 rule-gold" />
@@ -25,27 +25,44 @@ export function DrakeEndorsement() {
                 The Endorsement
               </span>
             </div>
-            <h2 className="mt-6 max-w-[16ch] font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.05] font-normal text-background">
+
+            <h2 className="mt-6 max-w-[16ch] font-display text-[clamp(2.5rem,5vw,3.5rem)] leading-[1.02] font-normal text-background">
               Drake backed the house.
             </h2>
-            <p className="mt-5 max-w-[44ch] font-body text-base leading-relaxed font-light text-background/60">
-              Toronto&apos;s most globally recognised artist commented directly on the 6ES Instagram post.
-              When the city&apos;s voice speaks, the world listens.
+
+            {/* Stat row */}
+            <div className="mt-8 grid grid-cols-3 gap-6 border-t border-b border-white/10 py-5">
+              <div>
+                <span className="block font-body text-[10px] font-medium tracking-luxe text-accent uppercase">Artist</span>
+                <span className="mt-1 block font-display text-lg text-background">Drake</span>
+              </div>
+              <div>
+                <span className="block font-body text-[10px] font-medium tracking-luxe text-accent uppercase">Platform</span>
+                <span className="mt-1 block font-display text-lg text-background">Instagram</span>
+              </div>
+              <div>
+                <span className="block font-body text-[10px] font-medium tracking-luxe text-accent uppercase">Status</span>
+                <span className="mt-1 block font-display text-lg text-accent">Verified ✓</span>
+              </div>
+            </div>
+
+            <p className="mt-6 max-w-[48ch] font-body text-sm leading-relaxed font-light text-background/55">
+              Toronto&apos;s most globally recognised artist commented directly on the 6ES Instagram post — putting the house on the global stage overnight.
             </p>
 
-            {/* Quote pull */}
-            <blockquote className="mt-8 border-l-2 border-accent pl-5">
-              <p className="font-display text-xl font-light text-background/85 italic leading-snug">
+            {/* Quote */}
+            <blockquote className="mt-8 border-l-2 border-accent/80 bg-white/[0.02] pl-6 pr-5 py-5 rounded-r-[4px]">
+              <p className="font-display text-2xl font-light text-background italic leading-snug">
                 &ldquo;Hurry up and buy 6ES&hellip;cologniiiiiii&rdquo;
               </p>
-              <footer className="mt-2 font-body text-xs font-medium tracking-luxe text-accent uppercase">
-                — champagnepapi (Drake) ✓ Verified
+              <footer className="mt-3 font-body text-[10px] font-semibold tracking-luxe text-accent uppercase">
+                @champagnepapi · Drake · 2d
               </footer>
             </blockquote>
 
             <Link
               href="/famous"
-              className="mt-8 inline-flex items-center gap-2 font-body text-micro font-medium tracking-luxe text-accent uppercase transition-opacity duration-300 hover:opacity-70"
+              className="mt-8 inline-flex items-center gap-3 border border-accent/40 px-6 py-3 font-body text-micro font-semibold tracking-luxe text-accent uppercase transition-all duration-300 hover:bg-accent hover:text-foreground"
             >
               See the full story
               <span aria-hidden="true">→</span>
