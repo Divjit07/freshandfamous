@@ -45,14 +45,22 @@ export const lines: Line[] = [
   },
   {
     id: "mag420",
-    name: "Sports MAG420™ Infusion",
+    name: "Magnesium Vitamin Air Freshener",
     wordmark: "MAG420",
-    tagline: "Motion, bottled.",
+    tagline: "Wellness, bottled.",
     blurb:
-      "For the hours that move. A clean, athletic infusion in four colourways that keep pace.",
-    price: 19.99,
-    unit: "Blue · White · Red · Black",
-    variants: ["Blue", "White", "Red", "Black"],
+      "A clean, magnesium-infused formula in seven signature scents designed to refresh your space.",
+    price: 9.99,
+    unit: "Magnesium Vitamin",
+    variants: [
+      "Tropical Islands",
+      "Mother Earth",
+      "Cherry Blossom",
+      "Odourless Aura",
+      "Baby Powder",
+      "Fresh Vanilla",
+      "Ocean Fresh"
+    ],
     href: "/shop#mag420",
   },
 ];

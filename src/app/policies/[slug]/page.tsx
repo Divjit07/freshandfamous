@@ -34,7 +34,7 @@ const POLICIES: Record<string, Policy> = {
     title: "Terms",
     body: [
       "By ordering from Fresh & Famous Inc. you agree to these terms. Prices are in Canadian dollars and can change without notice.",
-      "6ES™, MAG420™ and the Fresh & Famous name are marks of Fresh & Famous Inc., Toronto.",
+      "6ES™, MAG420™ Magnesium Vitamin Air Freshener and the Fresh & Famous name are marks of Fresh & Famous Inc., Toronto.",
     ],
   },
 };

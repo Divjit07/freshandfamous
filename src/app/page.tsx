@@ -3,6 +3,7 @@ import { The416Feature } from "@/components/home/the-416-feature";
 import { Collection } from "@/components/home/collection";
 import { MrFreshBand } from "@/components/home/mr-fresh-band";
 import { Closing } from "@/components/home/closing";
+import { DrakeEndorsement } from "@/components/home/drake-endorsement";
 import { findAsset } from "@/lib/assets";
 
 export default function Home() {
@@ -12,9 +13,10 @@ export default function Home() {
 
   return (
     <>
-      {/* Landing: 6ES storyboard → collection → founder (416) → Mr Fresh → list */}
+      {/* Landing: 6ES storyboard → collection → Drake endorsement → founder (416) → Mr Fresh → list */}
       <Storyboard6ES heroSrc={heroSrc} stageSrc={stageSrc} />
       <Collection />
+      <DrakeEndorsement />
       <The416Feature founderSrc={founderSrc} />
       <MrFreshBand />
       <Closing />

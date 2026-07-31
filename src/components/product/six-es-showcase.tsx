@@ -9,12 +9,34 @@ import { cn } from "@/lib/utils";
 
 const line = lines.find((l) => l.id === "6es")!;
 
+const VARIANT_DETAILS = {
+  "For Him": {
+    subtitle: "A Symphony of Elegance",
+    description: "Indulge in the essence of sophistication with For Him. The top notes offer a captivating blend of fire-roasted pineapple and juniper, leading to a heart of French vanilla, nutmeg, and peach. The fragrance settles into a warm base of sandalwood and amber musk, creating a scent that exudes strength and charisma.",
+    notes: {
+      top: ["Fire Roasted Pineapple", "Juniper", "Dark Chocolate", "Bulgarian Rose"],
+      middle: ["French Vanilla", "Nutmeg", "Peach", "Mandarin Orange"],
+      base: ["Sandalwood", "Amber Musk"]
+    }
+  },
+  "For Her": {
+    subtitle: "A Symphony of Grace",
+    description: "For the discerning woman, our For Her collection unveils a symphony of grace. The top notes burst with the sweetness of raspberry macaron, strawberry, and ripe Alphonso mango, complemented by the richness of dark chocolate and Bulgarian rose. The heart reveals a luxurious blend of French vanilla, coconut cream, and jasmine, while the base notes linger with the warmth of cashmere, blueberry, and almond.",
+    notes: {
+      top: ["Raspberry Macaron", "Strawberry", "Ripe Alphonso Mango", "Dark Chocolate", "Bulgarian Rose"],
+      middle: ["French Vanilla", "Coconut Cream", "Jasmine"],
+      base: ["Cashmere", "Blueberry", "Almond"]
+    }
+  }
+} as const;
+
 export function SixEsShowcase({
   images,
 }: {
   images: Record<string, string | null>;
 }) {
   const [variant, setVariant] = useState(line.variants[0]);
+  const details = VARIANT_DETAILS[variant as keyof typeof VARIANT_DETAILS];
   const [added, setAdded] = useState(false);
   const { add } = useCart();
 
@@ -101,8 +123,10 @@ export function SixEsShowcase({
           6ES<span className="align-super text-2xl">™</span>
         </h1>
         <p className="mt-5 max-w-[44ch] font-body text-base leading-relaxed font-light text-background/60 md:text-lg">
-          <span className="text-background/85 italic">{line.tagline}</span>{" "}
-          {line.blurb}
+          <span className="text-background/85 font-medium block not-italic text-accent mb-2">
+            {details.subtitle}
+          </span>
+          {details.description}
         </p>
 
         {/* Price */}
@@ -147,6 +171,27 @@ export function SixEsShowcase({
             })}
           </div>
         </fieldset>
+
+        {/* Dynamic Scent Tones */}
+        <div className="mt-8 border-t border-white/10 pt-6">
+          <span className="font-body text-eyebrow font-medium tracking-luxe text-accent uppercase block mb-4">
+            Scent Tones
+          </span>
+          <dl className="grid grid-cols-3 gap-4 border-y border-white/10 py-5">
+            <div className="flex flex-col gap-1.5">
+              <dt className="font-body text-[10px] font-semibold tracking-wider text-accent uppercase">Top</dt>
+              <dd className="font-body text-[13px] font-light leading-snug text-background/85">{details.notes.top.join(", ")}</dd>
+            </div>
+            <div className="flex flex-col gap-1.5 border-x border-white/10 px-4">
+              <dt className="font-body text-[10px] font-semibold tracking-wider text-accent uppercase">Middle</dt>
+              <dd className="font-body text-[13px] font-light leading-snug text-background/85">{details.notes.middle.join(", ")}</dd>
+            </div>
+            <div className="flex flex-col gap-1.5 pl-4">
+              <dt className="font-body text-[10px] font-semibold tracking-wider text-accent uppercase">Base</dt>
+              <dd className="font-body text-[13px] font-light leading-snug text-background/85">{details.notes.base.join(", ")}</dd>
+            </div>
+          </dl>
+        </div>
 
         {/* Add to cart */}
         <button

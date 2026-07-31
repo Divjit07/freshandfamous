@@ -57,7 +57,7 @@ export function Collection() {
             </h2>
             <p className="mt-8 max-w-[46ch] font-body text-base leading-relaxed font-light text-background/60 md:text-lg">
               A tight house, on purpose. Extrait for the night, mist for the
-              hours between, MAG420 for motion — plus Mr Fresh for the ride.
+              hours between, Magnesium Vitamin Air Freshener for motion — plus Mr Fresh for the ride.
             </p>
           </Reveal>
 
